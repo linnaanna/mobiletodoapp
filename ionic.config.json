@@ -1,0 +1,7 @@
+{
+  "name": "firebasetodo",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
