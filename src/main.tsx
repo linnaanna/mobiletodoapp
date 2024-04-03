@@ -1,11 +1,21 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import App from './App';
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { IonApp } from "@ionic/react";
+import { IonReactRouter } from "@ionic/react-router";
+import { BrowserRouter } from "react-router-dom";
 
-const container = document.getElementById('root');
+import App from "./App";
+
+const container = document.getElementById("root");
 const root = createRoot(container!);
 root.render(
   <React.StrictMode>
-    <App />
+    <IonApp>
+      <IonReactRouter>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </IonReactRouter>
+    </IonApp>
   </React.StrictMode>
 );

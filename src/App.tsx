@@ -1,42 +1,63 @@
-import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
-import Home from './pages/Home';
+// App.tsx
+import React, { useEffect, useState } from "react";
+import {
+  IonApp,
+  IonButton,
+  IonContent,
+  IonHeader,
+  IonItem,
+  IonLabel,
+  IonPage,
+  IonRouterLink,
+  IonRouterOutlet,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/react";
+import { IonReactRouter } from "@ionic/react-router";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import firebaseConfig from "./firebaseConfig";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Todo from "./pages/TodoList";
+import { useHistory, Redirect, Route, Switch } from "react-router-dom";
 
-/* Core CSS required for Ionic components to work properly */
-import '@ionic/react/css/core.css';
+firebase.initializeApp({
+  apiKey: "",
+  authDomain: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
+  appId: "",
+});
 
-/* Basic CSS for apps built with Ionic */
-import '@ionic/react/css/normalize.css';
-import '@ionic/react/css/structure.css';
-import '@ionic/react/css/typography.css';
+const App: React.FC = () => {
+  const [currentUser, setCurrentUser] = useState<firebase.User | null>(null);
 
-/* Optional CSS utils that can be commented out */
-import '@ionic/react/css/padding.css';
-import '@ionic/react/css/float-elements.css';
-import '@ionic/react/css/text-alignment.css';
-import '@ionic/react/css/text-transformation.css';
-import '@ionic/react/css/flex-utils.css';
-import '@ionic/react/css/display.css';
+  useEffect(() => {
+    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+      setCurrentUser(user);
+    });
 
-/* Theme variables */
-import './theme/variables.css';
+    return () => unsubscribe();
+  }, []);
 
-setupIonicReact();
-
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route exact path="/home">
-          <Home />
-        </Route>
-        <Route exact path="/">
-          <Redirect to="/home" />
-        </Route>
-      </IonRouterOutlet>
-    </IonReactRouter>
-  </IonApp>
-);
-
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <IonRouterOutlet>
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+          {currentUser ? (
+            <Route path="/todo" component={Todo} />
+          ) : (
+            <Redirect to="/login" />
+          )}
+          <Redirect exact from="/" to="/login" />
+        </IonRouterOutlet>
+      </IonReactRouter>
+    </IonApp>
+  );
+};
+console.log("hello");
 export default App;

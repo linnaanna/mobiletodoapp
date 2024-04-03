@@ -1,0 +1,5 @@
+.link, .todo-list {font-family: Arial, Helvetica, sans-serif;}
+.delete-btn {padding:25px;}
+.todo-item {padding:3px;}
+.todo-input {padding:25px 50px 75px 100px}
+.todo-header {font-family: Arial, Helvetica, sans-serif; }
